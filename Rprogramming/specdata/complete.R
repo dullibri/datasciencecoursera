@@ -20,7 +20,7 @@ complete <- function(directory, id = 1:332) {
     if (nchar(id_char)==2){
       id_char <- paste('0',id_char,sep='')
     }
-    df <- read.csv(paste(directory,'/',id_char,'.csv',sep=''))
+    df <- read.csv(paste('H:/Coursera/datasciencecoursera/Rprogramming/',directory,'/',id_char,'.csv',sep=''))
     if (!'data'%in%ls()){data <- df}else{data <- rbind(data,df)}     
   }  
 #   result=by(data,data$ID,function(x)sum(complete.cases(x)))
