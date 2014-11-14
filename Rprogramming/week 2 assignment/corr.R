@@ -20,13 +20,26 @@ corr <- function(directory, threshold = 0) {
     df <- read.csv(paste(directory,'/',id_char,'.csv',sep=''))
     if (!'data'%in%ls()){data <- df}else{data <- rbind(data,df)}     
   }  
-  
-  
-  result <- sapply(id,function(x){
+  id_cc <- sapply(1:332,function(x){
     y=sum(complete.cases(data[data$ID==x,]))
     result=c(id=x,nobs=y)
     return(result)})  
-  return(data)
+  id_cc <- t(id_cc)
+ 
+  short_id=id_cc[id_cc[,2]>threshold,]
+  if (length(short_id)==0){
+    return(0)
+  }else{
+  result=matrix(NA,nrow(short_id),2)
+  cc=data[complete.cases(data),]
+  for (i in 1:nrow(short_id)){
+    result[i,1]=i
+    
+    result[i,2]=cor(cc[which(cc$ID==short_id[i]),'sulfate'],cc[which(cc$ID==short_id[i]),'nitrate'])
+  }
+  return(result[,2])
+  }
+  
   
   
 }
